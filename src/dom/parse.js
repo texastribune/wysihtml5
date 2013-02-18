@@ -225,6 +225,7 @@ wysihtml5.dom.parse = (function() {
         newClass,
         attributeName,
         newAttributeValue,
+        methodName,
         method;
 
     if (setAttributes) {
@@ -233,7 +234,15 @@ wysihtml5.dom.parse = (function() {
 
     if (checkAttributes) {
       for (attributeName in checkAttributes) {
-        method = attributeCheckMethods[checkAttributes[attributeName]];
+        methodName = checkAttributes[attributeName];
+        if (methodName === 1) {
+          var attr = _getAttribute(oldNode, attributeName);
+          if (attr) {
+            attributes[attributeName] = attr;
+          }
+          continue;
+        }
+        method = attributeCheckMethods[methodName];
         if (!method) {
           continue;
         }
